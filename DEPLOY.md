@@ -44,7 +44,7 @@ git push -u origin deployment
 2. **Add New Project** → **Import** `umerfarooque00786/next-js-updated-portfolio`.
 3. **Production Branch:** `deployment` select karein (taake sirf `deployment` push par live deploy ho).
 4. **Environment Variables** (agar project mein use ho rahe hon):
-   - `DATABASE_URL` (Prisma)
+   - `DATABASE_URL` (Prisma) — **Sign up / Login ke liye zaroori.** Local par `file:./dev.db` (SQLite) chal sakta hai, lekin **Vercel par SQLite kaam nahi karta**. Live par Sign up chalane ke liye koi **hosted database** use karein (e.g. **Vercel Postgres**, **Neon**, **PlanetScale**) aur uski connection string ko `DATABASE_URL` mein daalein. Phir Prisma schema mein `provider = "postgresql"` (ya jaisa DB) set karke migration chalaen.
    - `NEXTAUTH_SECRET`, `NEXTAUTH_URL` (Next Auth)
    - Vercel ke **Settings → Environment Variables** se add karein.
 5. **Deploy** click karein.

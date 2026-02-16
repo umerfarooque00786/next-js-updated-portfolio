@@ -58,8 +58,15 @@ export async function POST(request: Request) {
         );
     } catch (error) {
         console.error("Signup error:", error);
+        const isPrisma = error && typeof error === "object" && "code" in error;
+        const isDbMissing =
+            !process.env.DATABASE_URL ||
+            (isPrisma && (error as { code?: string }).code === "P1001");
+        const message = isDbMissing
+            ? "Sign up is not available on this deployment. Database is not configured (set DATABASE_URL for production)."
+            : "Something went wrong. Please try again.";
         return NextResponse.json(
-            { error: "Something went wrong" },
+            { error: message },
             { status: 500 }
         );
     }

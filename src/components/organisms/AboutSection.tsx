@@ -17,7 +17,7 @@ const skills = [
     {
         icon: <Palette className="h-8 w-8 text-purple-400" />,
         title: "UI/UX Design",
-        description: "Creating liquid glass aesthetics with Tailwind CSS and Framer Motion."
+        description: "Creating liquid glass aesthetics with Tailwind CSS and modern CSS."
     },
     {
         icon: <Cpu className="h-8 w-8 text-pink-400" />,

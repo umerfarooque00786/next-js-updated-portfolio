@@ -15,10 +15,12 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         <GlassCard hoverEffect className="group relative overflow-hidden p-0 h-full flex flex-col">
             {/* Image Container */}
             <Link href={`/projects/${project.id}`} className="block relative aspect-video w-full overflow-hidden bg-gray-900/50">
-                <img
+                <Image
                     src={project.imageUrl}
                     alt={project.title}
-                    className="object-cover object-top w-full h-full transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent opacity-80" />
