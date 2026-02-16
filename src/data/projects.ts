@@ -22,6 +22,38 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "vadu",
+    title: "VADU",
+    description: "Connecting General Contractors with top-rated Sub-Contractors.",
+    liveUrl: "https://vadu.io/",
+    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://vadu.io/",
+    tags: ["Marketplace", "Laravel", "Contractors"],
+    stack: "laravel",
+    fullDescription: "VADU bridges trust between General Contractors and Sub-Contractors, providing transparency for both parties. A marketplace for services, top-rated professionals, and trending services—built to end fake reviews and help people find the right contractor.",
+    scope: [
+      "Marketplace platform development",
+      "Service categories and listings",
+      "Sub-contractor onboarding and profiles",
+      "Search and discovery",
+      "Multi-language support (English, Spanish)"
+    ],
+    techStack: ["Laravel", "PHP", "MySQL", "Blade", "Tailwind CSS"],
+    features: [
+      "Top-rated sub-contractors of the month",
+      "Service categories and trending services",
+      "Contractor search and discovery",
+      "Professional and customer FAQs",
+      "User accounts and authentication"
+    ],
+    duration: "Ongoing",
+    role: "Full Stack Developer",
+    category: "Marketplace",
+    gallery: [
+      "https://image.thum.io/get/width/800/crop/600/https://vadu.io/",
+      "https://image.thum.io/get/width/600/crop/800/https://vadu.io/"
+    ]
+  },
+  {
     id: "outriderx",
     title: "OutriderX",
     description: "High-performance marketing platform.",
