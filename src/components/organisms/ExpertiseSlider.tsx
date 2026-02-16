@@ -2,13 +2,16 @@
 
 const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 
-const EXPERTISE = [
+/* simpleicons.org CDN – Shopify & Wix logos (reliable fallback when devicon fails) */
+const SIMPLE_ICONS = "https://cdn.simpleicons.org";
+
+const EXPERTISE: { name: string; icon: string }[] = [
   { name: "Laravel", icon: `${CDN}/laravel/laravel-original.svg` },
   { name: "WordPress", icon: `${CDN}/wordpress/wordpress-original.svg` },
   { name: "Tailwind CSS", icon: `${CDN}/tailwindcss/tailwindcss-original.svg` },
   { name: "Bootstrap", icon: `${CDN}/bootstrap/bootstrap-original.svg` },
-  { name: "Shopify", icon: `${CDN}/shopify/shopify-original.svg` },
-  { name: "Wix", icon: `${CDN}/wix/wix-original.svg` },
+  { name: "Shopify", icon: `${SIMPLE_ICONS}/shopify/96bf48` },
+  { name: "Wix", icon: `${SIMPLE_ICONS}/wix/0C6EFC` },
   { name: "React", icon: `${CDN}/react/react-original.svg` },
   { name: "Next.js", icon: `${CDN}/nextjs/nextjs-original.svg` },
   { name: "TypeScript", icon: `${CDN}/typescript/typescript-original.svg` },
