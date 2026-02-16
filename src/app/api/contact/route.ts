@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const TO_EMAIL = "umerfarooqkk4@gmail.com";
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>";
 
@@ -26,7 +25,8 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!process.env.RESEND_API_KEY) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
       console.error("RESEND_API_KEY is not set");
       return NextResponse.json(
         { error: "Email not configured. Add RESEND_API_KEY in .env (see VERCEL_DEPLOY.md)." },
@@ -34,6 +34,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: TO_EMAIL,
