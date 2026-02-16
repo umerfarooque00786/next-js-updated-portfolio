@@ -27,6 +27,17 @@
       transform: translateY(-10px);
     }
   }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  --animate-marquee: marquee 20s linear infinite;
 }
 
 :root {
@@ -88,4 +99,9 @@ body {
 .scroll-reveal.revealed {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Expertise slider marquee */
+.animate-marquee {
+  animation: var(--animate-marquee);
 }

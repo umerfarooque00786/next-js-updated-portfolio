@@ -1,3 +1,5 @@
+export type ProjectStack = "laravel" | "wordpress";
+
 export interface Project {
   id: string;
   title: string;
@@ -5,6 +7,8 @@ export interface Project {
   liveUrl: string;
   imageUrl: string;
   tags?: string[];
+  /** Override for Laravel/WordPress tab; if not set, derived from role */
+  stack?: ProjectStack;
   // Detailed project information
   fullDescription?: string;
   scope?: string[];
@@ -43,6 +47,7 @@ export const projects: Project[] = [
     duration: "3 months",
     role: "Full Stack Developer",
     category: "Marketing Platform",
+    stack: "wordpress",
     gallery: [
       "https://image.thum.io/get/width/800/crop/600/https://outriderx.com/",
       "https://image.thum.io/get/width/600/crop/800/https://outriderx.com/"
@@ -73,6 +78,7 @@ export const projects: Project[] = [
     duration: "4 months",
     role: "Lead Web Developer",
     category: "Fitness & Health",
+    stack: "wordpress",
     gallery: [
       "https://image.thum.io/get/width/800/crop/600/https://hqpt.com/",
       "https://image.thum.io/get/width/600/crop/800/https://hqpt.com/"
@@ -163,6 +169,7 @@ export const projects: Project[] = [
     duration: "2 months",
     role: "Shopify Developer",
     category: "E-commerce",
+    stack: "wordpress",
     gallery: [
       "https://image.thum.io/get/width/800/crop/600/https://en.lamposhop.com/",
       "https://image.thum.io/get/width/600/crop/800/https://en.lamposhop.com/"
@@ -223,6 +230,7 @@ export const projects: Project[] = [
     duration: "3 months",
     role: "Shopify Plus Developer",
     category: "Luxury E-commerce",
+    stack: "wordpress",
     gallery: [
       "https://image.thum.io/get/width/800/crop/600/https://anphiejewels.com/",
       "https://image.thum.io/get/width/600/crop/800/https://anphiejewels.com/"
@@ -493,6 +501,7 @@ export const projects: Project[] = [
     duration: "4 months",
     role: "Full Stack Developer",
     category: "Real Estate",
+    stack: "wordpress",
     gallery: [
       "https://image.thum.io/get/width/800/crop/600/https://landologyinc.com/",
       "https://image.thum.io/get/width/600/crop/800/https://landologyinc.com/"
@@ -649,3 +658,12 @@ export const projects: Project[] = [
     ]
   }
 ];
+
+export type ProjectStack = "laravel" | "wordpress";
+
+/** Laravel vs WordPress for tabs: use explicit stack if set, else derive from role */
+export function getProjectStack(project: Project): ProjectStack {
+  if (project.stack) return project.stack;
+  const r = project.role?.toLowerCase() ?? "";
+  return r.includes("wordpress") ? "wordpress" : "laravel";
+}
