@@ -32,7 +32,7 @@ export const HeroSection = () => {
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Button>
                     </Link>
-                    <a href="/resume/Umer-Farooque-updated-Resume-2026.pdf" download="Umer-Farooque-updated-Resume-2026.pdf">
+                    <a href="/resume/Umer-Farooque-Resume.pdf" download="Umer-Farooque-Resume.pdf">
                         <Button variant="outline">
                             Download Resume
                         </Button>

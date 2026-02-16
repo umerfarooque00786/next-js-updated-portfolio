@@ -113,8 +113,8 @@ export const AboutSection = () => {
                                 </div>
                             </div>
                             <a
-href="/resume/Umer-Farooque-updated-Resume-2026.pdf"
-                                    download="Umer-Farooque-updated-Resume-2026.pdf"
+href="/resume/Umer-Farooque-Resume.pdf"
+                                    download="Umer-Farooque-Resume.pdf"
                                 className="inline-flex items-center gap-2 shrink-0 text-sky-400 hover:text-sky-300 font-medium transition-colors"
                             >
                                 <span>Download Resume</span>
