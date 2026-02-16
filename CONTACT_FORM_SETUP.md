@@ -28,7 +28,7 @@ RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
 3. File save karo.
 4. Dev server restart karo: `npm run dev`.
 
-Ab local par form submit karne par email **umerfarooqkk4@gmail.com** par aani chahiye.
+Ab local par form submit karne par email **umerfarooque00786@gmail.com** (Resend account) par aani chahiye.
 
 ---
 

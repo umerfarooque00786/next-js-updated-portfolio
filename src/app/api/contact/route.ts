@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const TO_EMAIL = "umerfarooqkk4@gmail.com";
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>";
+// Resend test mode only allows sending to account email
+const TO_EMAIL = "umerfarooque00786@gmail.com";
+// Resend free tier: only onboarding@resend.dev is allowed as sender
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
 
 export async function POST(request: Request) {
   try {
@@ -52,8 +54,12 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Resend error:", error);
+      const message =
+        error?.message && typeof error.message === "string"
+          ? error.message
+          : "Failed to send message. Please try again.";
       return NextResponse.json(
-        { error: "Failed to send message. Please try again." },
+        { error: message },
         { status: 500 }
       );
     }

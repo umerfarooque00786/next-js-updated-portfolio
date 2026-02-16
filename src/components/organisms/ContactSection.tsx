@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { GlassCard } from "@/components/atoms/GlassCard";
@@ -44,6 +45,7 @@ const contactLinks = [
 ];
 
 export const ContactSection = () => {
+    const { data: session, status: sessionStatus } = useSession();
     const cardRef = useScrollReveal();
     const infoRef = useScrollReveal();
     const [name, setName] = useState("");
@@ -51,6 +53,38 @@ export const ContactSection = () => {
     const [message, setMessage] = useState("");
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMsg, setErrorMsg] = useState("");
+    const [successCountdown, setSuccessCountdown] = useState(5);
+    const [successFadeOut, setSuccessFadeOut] = useState(false);
+
+    // Pre-fill name and email when user is logged in (only if fields are empty)
+    useEffect(() => {
+        if (sessionStatus !== "authenticated" || !session?.user) return;
+        const user = session.user;
+        if (user.name && !name) setName(user.name);
+        if (user.email && !email) setEmail(user.email);
+    }, [sessionStatus, session?.user, name, email]);
+
+    // Success alert: countdown 5→0, then smooth fade-out and remove
+    useEffect(() => {
+        if (status !== "success") {
+            setSuccessFadeOut(false);
+            return;
+        }
+        setSuccessCountdown(5);
+        setSuccessFadeOut(false);
+        const interval = setInterval(() => {
+            setSuccessCountdown((prev) => {
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    setSuccessFadeOut(true);
+                    setTimeout(() => setStatus("idle"), 350);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [status]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -162,11 +196,21 @@ export const ContactSection = () => {
                                 />
                             </div>
                             {status === "success" && (
-                                <div className="rounded-lg bg-green-500/10 border border-green-500/30 p-4 flex items-start gap-3">
-                                    <CheckCircle className="h-5 w-5 shrink-0 text-green-400 mt-0.5" />
-                                    <div>
-                                        <p className="font-medium text-green-400">Thank you!</p>
-                                        <p className="text-sm text-gray-300 mt-1">Your message has been sent. I&apos;ll reply to your email soon.</p>
+                                <div
+                                    className={`relative overflow-hidden rounded-lg bg-green-500/10 border border-green-500/30 transition-all duration-300 ease-out ${
+                                        successFadeOut ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
+                                    }`}
+                                >
+                                    <div
+                                        className="absolute top-0 left-0 h-1 bg-green-400 transition-[width] duration-1000 ease-linear"
+                                        style={{ width: `${(successCountdown / 5) * 100}%` }}
+                                    />
+                                    <div className="p-4 flex items-start gap-3 pt-5">
+                                        <CheckCircle className="h-5 w-5 shrink-0 text-green-400 mt-0.5" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium text-green-400">Thank you!</p>
+                                            <p className="text-sm text-gray-300 mt-1">Your message has been sent. I&apos;ll reply to your email soon.</p>
+                                        </div>
                                     </div>
                                 </div>
                             )}
