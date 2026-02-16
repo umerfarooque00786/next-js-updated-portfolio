@@ -67,6 +67,12 @@ Agar **auth bhi live** chahiye (Sign Up / Login):
 
 **Note:** Abhi SQLite use ho raha hai; Vercel par SQLite file nahi chalti. Production auth ke liye baad mein PostgreSQL (Vercel Postgres / Neon) set karna padega.
 
+**Contact form (query email par bhejna):**
+
+- [Resend](https://resend.com) par sign up karo, API key lo.
+- Vercel Environment Variables mein add karo: **Name** `RESEND_API_KEY`, **Value** apni Resend API key.
+- Isse contact form submit hone par query **umerfarooqkk4@gmail.com** par email se aa jayegi.
+
 ---
 
 ## Step 5: Deploy

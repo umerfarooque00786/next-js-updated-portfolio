@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
 import { GlassCard } from "@/components/atoms/GlassCard";
 import { Heading } from "@/components/atoms/Heading";
 import { Text } from "@/components/atoms/Text";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
@@ -45,6 +46,44 @@ const contactLinks = [
 export const ContactSection = () => {
     const cardRef = useScrollReveal();
     const infoRef = useScrollReveal();
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const trimmedEmail = email.trim();
+        const trimmedMessage = message.trim();
+        if (!trimmedEmail || !trimmedMessage) {
+            setStatus("error");
+            setErrorMsg("Please enter your email and message.");
+            return;
+        }
+        setStatus("loading");
+        setErrorMsg("");
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name.trim() || undefined, email: trimmedEmail, message: trimmedMessage }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                setStatus("error");
+                setErrorMsg(data.error ?? "Something went wrong. (Add RESEND_API_KEY in .env for email to work.)");
+                return;
+            }
+            setStatus("success");
+            setName("");
+            setEmail("");
+            setMessage("");
+        } catch {
+            setStatus("error");
+            setErrorMsg("Failed to send. Please try again.");
+        }
+    };
 
     return (
         <section id="contact" className=" pb-20 relative overflow-hidden">
@@ -84,28 +123,69 @@ export const ContactSection = () => {
                     <GlassCard className="p-8 lg:p-10 border-t border-white/20">
                         <h3 className="text-lg font-semibold text-white mb-2">Send a message</h3>
                         <Text size="sm" className="text-gray-400 mb-6">
-                            Prefer email? Fill the form and I&apos;ll reply to your inbox.
+                            Fill the form and I&apos;ll get back to you at your email.
                         </Text>
-                        <form className="space-y-4">
+                        <form onSubmit={handleSubmit} className="space-y-4" noValidate action="#">
                             <div>
-                                <label htmlFor="contact-email" className="block text-sm font-medium text-gray-400 mb-1">Your Email</label>
+                                <label htmlFor="contact-name" className="block text-sm font-medium text-gray-400 mb-1">Name (optional)</label>
+                                <input
+                                    type="text"
+                                    id="contact-name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all"
+                                    placeholder="Your name"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="contact-email" className="block text-sm font-medium text-gray-400 mb-1">Your Email *</label>
                                 <input
                                     type="email"
                                     id="contact-email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all"
                                     placeholder="you@example.com"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="contact-message" className="block text-sm font-medium text-gray-400 mb-1">Message</label>
+                                <label htmlFor="contact-message" className="block text-sm font-medium text-gray-400 mb-1">Message *</label>
                                 <textarea
                                     id="contact-message"
                                     rows={4}
+                                    required
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
                                     className="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all resize-none"
                                     placeholder="Tell me about your project or idea..."
                                 />
                             </div>
-                            <Button type="submit" className="w-full">Send Message</Button>
+                            {status === "success" && (
+                                <div className="rounded-lg bg-green-500/10 border border-green-500/30 p-4 flex items-start gap-3">
+                                    <CheckCircle className="h-5 w-5 shrink-0 text-green-400 mt-0.5" />
+                                    <div>
+                                        <p className="font-medium text-green-400">Thank you!</p>
+                                        <p className="text-sm text-gray-300 mt-1">Your message has been sent. I&apos;ll reply to your email soon.</p>
+                                    </div>
+                                </div>
+                            )}
+                            {status === "error" && (
+                                <div className="rounded-lg bg-red-500/10 border border-red-500/30 p-4 flex items-start gap-3">
+                                    <AlertCircle className="h-5 w-5 shrink-0 text-red-400 mt-0.5" />
+                                    <p className="text-sm text-red-300">{errorMsg}</p>
+                                </div>
+                            )}
+                            <Button type="submit" className="w-full cursor-pointer" disabled={status === "loading"}>
+                                {status === "loading" ? (
+                                    <>
+                                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                        Sending...
+                                    </>
+                                ) : (
+                                    "Send Message"
+                                )}
+                            </Button>
                         </form>
                     </GlassCard>
                 </div>
