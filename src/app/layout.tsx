@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { MainLayout } from "@/components/templates/MainLayout";
-import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import "./globals.css";
 
@@ -32,9 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider>
-          <SmoothScrollProvider>
-            <MainLayout>{children}</MainLayout>
-          </SmoothScrollProvider>
+          <MainLayout>{children}</MainLayout>
         </SessionProvider>
       </body>
     </html>
