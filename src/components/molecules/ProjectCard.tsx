@@ -1,0 +1,74 @@
+import { GlassCard } from "@/components/atoms/GlassCard";
+import { Heading } from "@/components/atoms/Heading";
+import { Text } from "@/components/atoms/Text";
+import { Project } from "@/data/projects";
+import { ExternalLink, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+interface ProjectCardProps {
+    project: Project;
+}
+
+export const ProjectCard = ({ project }: ProjectCardProps) => {
+    return (
+        <GlassCard hoverEffect className="group relative overflow-hidden p-0 h-full flex flex-col">
+            {/* Image Container */}
+            <Link href={`/projects/${project.id}`} className="block relative aspect-video w-full overflow-hidden bg-gray-900/50">
+                <img
+                    src={project.imageUrl}
+                    alt={project.title}
+                    className="object-cover object-top w-full h-full transition-transform duration-700 group-hover:scale-105"
+                />
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent opacity-80" />
+            </Link>
+
+            {/* Content */}
+            <div className="relative flex flex-col flex-grow p-6">
+                <div className="mb-4 flex items-start justify-between">
+                    <div>
+                        <Link href={`/projects/${project.id}`}>
+                            <Heading size="md" className="group-hover:text-sky-400 transition-colors">
+                                {project.title}
+                            </Heading>
+                        </Link>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                            {project.tags?.slice(0, 3).map((tag) => (
+                                <span
+                                    key={tag}
+                                    className="rounded-full bg-white/5 px-2 py-0.5 text-xs font-medium text-gray-300 border border-white/10"
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                    <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-sky-500 hover:text-white"
+                        aria-label="Visit Live Site"
+                    >
+                        <ExternalLink className="h-5 w-5" />
+                    </a>
+                </div>
+
+                <Text size="sm" className="text-gray-400 flex-grow mb-4">
+                    {project.description}
+                </Text>
+
+                <div className="mt-auto pt-4 border-t border-white/5">
+                    <Link
+                        href={`/projects/${project.id}`}
+                        className="inline-flex items-center text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors"
+                    >
+                        View Details
+                        <ArrowUpRight className="ml-1 h-3 w-3" />
+                    </Link>
+                </div>
+            </div>
+        </GlassCard>
+    );
+};
