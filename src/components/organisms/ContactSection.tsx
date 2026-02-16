@@ -47,7 +47,7 @@ export const ContactSection = () => {
     const infoRef = useScrollReveal();
 
     return (
-        <section id="contact" className="py-24 relative overflow-hidden">
+        <section id="contact" className=" pb-20 relative overflow-hidden">
             <div className="absolute left-1/4 top-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-[128px]" />
             <div className="absolute right-1/4 bottom-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[128px]" />
 
