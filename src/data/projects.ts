@@ -659,8 +659,6 @@ export const projects: Project[] = [
   }
 ];
 
-export type ProjectStack = "laravel" | "wordpress";
-
 /** Laravel vs WordPress for tabs: use explicit stack if set, else derive from role */
 export function getProjectStack(project: Project): ProjectStack {
   if (project.stack) return project.stack;
